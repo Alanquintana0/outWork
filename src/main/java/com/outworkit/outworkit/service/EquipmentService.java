@@ -1,5 +1,6 @@
 package com.outworkit.outworkit.service;
 
+import com.outworkit.outworkit.controller.exception.BadRequestException;
 import com.outworkit.outworkit.controller.exception.ResourceNotFoundException;
 import com.outworkit.outworkit.entity.Equipment;
 import com.outworkit.outworkit.repository.EquipmentRepository;
@@ -77,26 +78,29 @@ public class EquipmentService {
     }
 
     public void delete(Long id){
+        if (!equipmentRepository.existsById(id)) {
+            throw new ResourceNotFoundException(String.format("Equipment not found with ID: %d", id));
+        }
         equipmentRepository.deleteById(id);
     }
 
     private void validateEquipment(Equipment equipment) {
         if (equipment == null) {
-            throw new IllegalArgumentException("equipment cant be null");
+            throw new BadRequestException("equipment cant be null");
         }
 
         if (equipment.getName() == null || equipment.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("equipment name is required");
+            throw new BadRequestException("equipment name is required");
         }
 
         if (equipment.getName().trim().length() > 255) {
-            throw new IllegalArgumentException("equipment name cant exceed 255");
+            throw new BadRequestException("equipment name cant exceed 255");
         }
 
         Optional<Equipment> existingEquipment = equipmentRepository.findByNameIgnoreCase(equipment.getName().trim());
         if (existingEquipment.isPresent() &&
                 !existingEquipment.get().getId().equals(equipment.getId())) {
-            throw new IllegalArgumentException(
+            throw new BadRequestException(
                     String.format("Theres already an equipment with that name: %s", equipment.getName())
             );
         }

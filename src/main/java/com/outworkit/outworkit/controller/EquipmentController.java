@@ -1,7 +1,6 @@
 package com.outworkit.outworkit.controller;
 
 import com.outworkit.outworkit.entity.Equipment;
-import com.outworkit.outworkit.repository.EquipmentRepository;
 import com.outworkit.outworkit.service.EquipmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

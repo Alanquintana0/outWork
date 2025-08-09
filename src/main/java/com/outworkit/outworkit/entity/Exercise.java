@@ -11,7 +11,6 @@ public class Exercise {
     private Long id;
 
     private String name;
-    private String riskLevel;
 
     @ManyToOne
     @JoinColumn(name = "equipment_id")

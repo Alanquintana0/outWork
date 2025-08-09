@@ -66,6 +66,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex) {
+        log.error("Bad request: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("Solicitud incorrecta")
+                .message(ex.getMessage())
+                .path(getPath())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
     private String getPath() {
         // Aquí podrías obtener el path actual de la request
         // Por simplicidad, retornamos un valor por defecto
