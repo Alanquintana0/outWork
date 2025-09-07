@@ -18,7 +18,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class EquipmentService {
-    private final EquipmentRepository equipmentRepository;
+
+    EquipmentRepository equipmentRepository;
 
     public List<Equipment> getEquipments(){
         log.debug("Getting equipments");

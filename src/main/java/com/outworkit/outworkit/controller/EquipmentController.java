@@ -21,6 +21,7 @@ public class EquipmentController {
 
     private final EquipmentService equipmentService;
 
+
     @GetMapping
     public ResponseEntity<List<Equipment>> getAllEquipments() {
         log.info("Solicitando todos los equipos");

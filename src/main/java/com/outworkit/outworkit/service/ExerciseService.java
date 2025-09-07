@@ -18,7 +18,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ExerciseService {
-    private final ExerciseRepository exerciseRepository;
+
+    ExerciseRepository exerciseRepository;
 
     public List<Exercise> getExercises(){
         List<Exercise> exercises = exerciseRepository.findAll();
@@ -71,7 +72,7 @@ public class ExerciseService {
     }
 
     public void delete(Long id){
-        if(exerciseRepository.existsById(id)){
+        if(!exerciseRepository.existsById(id)){
             throw new ResourceNotFoundException(String.format("Exercise not found with ID: %d", id));
         }
 
@@ -89,6 +90,14 @@ public class ExerciseService {
 
         if (exercise.getName().trim().length() > 255) {
             throw new BadRequestException("equipment name cant exceed 255");
+        }
+
+        if(exercise.getEquipment() == null || exercise.getEquipment().getId() == null){
+            throw new BadRequestException("Exercise equipment is required");
+        }
+
+        if(exercise.getMuscleGroup() == null || exercise.getMuscleGroup().getId() == null){
+            throw new BadRequestException("Exercise muscle group is required");
         }
 
         Optional<Exercise> existingEquipment = exerciseRepository.findByNameIgnoreCase(exercise.getName().trim());

@@ -6,22 +6,20 @@ import com.outworkit.outworkit.service.ExerciseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/equipment")
+@RequestMapping("/api/v1/exercises")
 @RequiredArgsConstructor
 @Slf4j
 public class ExercisesController {
 
     private final ExerciseService exerciseService;
+
 
     @GetMapping
     public ResponseEntity<List<Exercise>> getAllExercises(){
@@ -30,7 +28,7 @@ public class ExercisesController {
         return ResponseEntity.ok(exercises);
     }
 
-    @GetMapping
+    @GetMapping("/{exerciseId}")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable Long exerciseId){
         log.info("Requesting exercise with Id: {}", exerciseId);
         Exercise exercise = exerciseService.getExercise(exerciseId);
