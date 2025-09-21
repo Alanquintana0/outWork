@@ -21,11 +21,16 @@ public class EquipmentService {
 
     EquipmentRepository equipmentRepository;
 
-    public List<Equipment> getEquipments(){
-        log.debug("Getting equipments");
-        List<Equipment> equipments = equipmentRepository.findAll();
-        log.info("Equipments retrieved");
-        return equipments;
+    public List<Equipment> getEquipments() {
+        try {
+            log.debug("Getting equipments");
+            List<Equipment> equipments = equipmentRepository.findAll();
+            log.info("Equipments retrieved");
+            return equipments;
+        } catch (Exception e) {
+            log.error("Error retrieving equipments", e);
+            throw e;
+        }
     }
 
     public Equipment getEquipment(Long id){
